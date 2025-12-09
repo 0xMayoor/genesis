@@ -44,6 +44,13 @@ class Level0Sample:
     category: str  # More specific category
     difficulty: str  # "easy", "medium", "hard"
 
+    @property
+    def expected_mnemonic(self) -> str:
+        """Get the first instruction's mnemonic, or 'unknown' for invalid."""
+        if self.instructions and self.is_valid:
+            return self.instructions[0].get("mnemonic", "unknown")
+        return "unknown"
+
     def to_dict(self) -> dict[str, Any]:
         """Convert to JSON-serializable dict."""
         return {
@@ -51,6 +58,7 @@ class Level0Sample:
             "architecture": self.architecture,
             "instructions": self.instructions,
             "is_valid": self.is_valid,
+            "expected_mnemonic": self.expected_mnemonic,
             "source": self.source,
             "category": self.category,
             "difficulty": self.difficulty,
