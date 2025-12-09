@@ -177,6 +177,9 @@ class Level0Trainer:
             self.model = get_peft_model(self.model, lora_config)
             self.model.print_trainable_parameters()
 
+            # Enable input gradients for gradient checkpointing compatibility
+            self.model.enable_input_require_grads()
+
         if self.config.gradient_checkpointing:
             self.model.gradient_checkpointing_enable()
 
