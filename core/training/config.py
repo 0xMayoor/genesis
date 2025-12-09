@@ -36,8 +36,27 @@ class ModelConfig:
     lora_dropout: float = 0.1
     """Dropout for LoRA layers."""
 
-    lora_target_modules: list[str] = field(default_factory=lambda: ["query", "value"])
-    """Which modules to apply LoRA to."""
+    lora_target_modules: list[str] | None = None
+    """Which modules to apply LoRA to. None = auto-detect based on model."""
+
+    def get_lora_target_modules(self) -> list[str]:
+        """Get LoRA target modules based on model architecture."""
+        if self.lora_target_modules is not None:
+            return self.lora_target_modules
+        
+        # Auto-detect based on model name
+        model_lower = self.model_name.lower()
+        if "gpt2" in model_lower or "gpt-2" in model_lower:
+            return ["c_attn", "c_proj"]
+        elif "bert" in model_lower:
+            return ["query", "value"]
+        elif "llama" in model_lower or "mistral" in model_lower:
+            return ["q_proj", "v_proj"]
+        elif "t5" in model_lower:
+            return ["q", "v"]
+        else:
+            # Default fallback - common attention modules
+            return ["q_proj", "v_proj", "query", "value"]
 
     def estimated_trainable_params(self) -> int:
         """Estimate trainable parameters with LoRA."""
@@ -45,7 +64,8 @@ class ModelConfig:
             return 125_000_000  # Full model (rough estimate)
 
         # LoRA params ≈ 2 * r * hidden_size * num_modules
-        num_modules = len(self.lora_target_modules) * 12  # 12 layers typical
+        target_modules = self.get_lora_target_modules()
+        num_modules = len(target_modules) * 12  # 12 layers typical
         return 2 * self.lora_r * self.hidden_size * num_modules
 
 

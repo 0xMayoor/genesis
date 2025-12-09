@@ -163,12 +163,15 @@ class Level0Trainer:
         if self.config.model.use_lora:
             logger.info("Applying LoRA configuration")
 
+            target_modules = self.config.model.get_lora_target_modules()
+            logger.info(f"LoRA target modules: {target_modules}")
+
             lora_config = LoraConfig(
                 task_type=TaskType.CAUSAL_LM,
                 r=self.config.model.lora_r,
                 lora_alpha=self.config.model.lora_alpha,
                 lora_dropout=self.config.model.lora_dropout,
-                target_modules=self.config.model.lora_target_modules,
+                target_modules=target_modules,
             )
 
             self.model = get_peft_model(self.model, lora_config)
