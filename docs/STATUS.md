@@ -1,7 +1,7 @@
 # GENESIS Project Status
 
 ## Last Updated
-2024-12-10 13:45 UTC+01:00
+2024-12-10 17:30 UTC+01:00
 
 ## Current Phase
 **Phase A: Foundation** - Setting up architecture, documentation, and infrastructure
@@ -57,19 +57,29 @@
 
 ### Level 0 Model Training ✅
 - 🟢 Model trained on Kaggle (GPU P100)
-- 🟢 LoRA r=32, alpha=64, 77 epochs (early stopped)
-- 🟢 Final loss: 0.0671
+- 🟢 LoRA r=32, alpha=64, continued training
+- 🟢 Final loss: 0.0539
 - 🟢 **Dataset Accuracy: 100%**
 - 🟢 **Adversarial Refusal: 100%**
-- 🟢 **Comprehensive Exam: 98%**
+- 🟢 **Comprehensive Exam: 100%** (98/98)
+
+### Level 1: Assembly Semantics ✅
+- 🟢 `docs/levels/level_1.md` — Specification complete
+- 🟢 `levels/level1_assembly/types.py` — Types defined
+- 🟢 `levels/level1_assembly/module.py` — Deterministic module (909 lines)
+- 🟢 `tests/test_level1.py` — Unit tests passing
+- 🟢 `tests/exam_level1.py` — **96/96 (100%)** comprehensive exam
+- 🟢 `genesis_datasets/generators/level1_generator.py` — Dataset generator
+- 🟢 `genesis_datasets/level1/train.jsonl` — 9,300 samples, 74 mnemonics
 
 ---
 
 ## In Progress
 
 ### Phase A: Foundation
-- 🟢 Level 0 complete!
-- 🟡 Level 1 (Assembly Semantics) — Next up
+- 🟢 Level 0 complete! (100% exam)
+- � Level 1 deterministic module complete! (100% exam)
+- 🟡 Level 1 model training — Ready to start
 
 ---
 
@@ -81,10 +91,10 @@ None currently.
 
 ## Next Steps
 
-1. **Start Level 1 design** — Assembly semantics
-2. **Create Level 1 spec** — `docs/levels/level_1.md`
-3. **Design Level 1 dataset** — Instruction semantics, register effects
-4. (Optional) **Retrain Level 0** with added patterns to hit 100% exam
+1. **Train Level 1 model** — Dataset ready (9,300 samples)
+2. **Create Level 1 training script** — Kaggle notebook
+3. **Run Level 1 comprehensive exam** — Target 100%
+4. **Begin Level 2 design** — Control flow analysis
 
 ---
 
@@ -144,7 +154,7 @@ None currently.
 | Milestone | Target | Status |
 |-----------|--------|--------|
 | Phase A Complete | Week 4 | 🟢 Complete |
-| Level 0 Training | Month 2 | 🟢 Complete (98% exam) |
+| Level 0 Training | Month 2 | 🟢 Complete (100% exam) |
 | Level 1-2 Training | Month 3 | ⚪ Pending |
 | Level 3-4 Training | Month 4 | ⚪ Pending |
 | Agent Layer | Month 5-6 | ⚪ Pending |
