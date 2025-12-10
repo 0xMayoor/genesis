@@ -182,6 +182,13 @@ class Level1Module:
         effects = []
         mem_effects = []
         
+        # Validate operands
+        dst_valid = self._is_register(dst) or self._is_memory(dst)
+        src_valid = self._is_register(src) or self._is_memory(src) or self._is_immediate(src)
+        
+        if not dst_valid or not src_valid:
+            return self._uncertain(instr, f"Invalid operands: {dst}, {src}")
+        
         # Destination
         if self._is_register(dst):
             effects.append(RegisterEffect(dst, EffectOperation.WRITE, src))
@@ -873,6 +880,21 @@ class Level1Module:
     def _is_memory(self, operand: str) -> bool:
         """Check if operand is a memory reference."""
         return "[" in operand or operand.startswith("ptr")
+    
+    def _is_immediate(self, operand: str) -> bool:
+        """Check if operand is an immediate value."""
+        op = operand.lower().strip()
+        # Hex: 0x..., decimal, or negative
+        if op.startswith("0x") or op.startswith("-"):
+            return True
+        if op.isdigit():
+            return True
+        # Allow hex without 0x prefix (like "ff")
+        try:
+            int(op, 16)
+            return True
+        except ValueError:
+            return False
     
     def _parse_mem(self, operand: str) -> str:
         """Parse memory operand to address expression."""
