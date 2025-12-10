@@ -15,7 +15,7 @@ import sys
 sys.path.insert(0, ".")
 
 from levels.level0_machine.types import Instruction, InstructionCategory
-from levels.level1_assembly import Level1Module
+from levels.level1_assembly import Level1Module, Level1Input
 
 
 def load_model(model_path: str):
@@ -66,14 +66,14 @@ def get_ground_truth(module: Level1Module, mnemonic: str, operands: list[str]) -
         category=InstructionCategory.DATA_TRANSFER,
     )
     
-    result = module.analyze(instr)
+    result = module.analyze(Level1Input(instruction=instr))
     
     return {
         "reads": [e.register for e in result.register_effects if e.operation.value == "read"],
         "writes": [e.register for e in result.register_effects if e.operation.value == "write"],
         "flags": [(e.flag, e.operation.value) for e in result.flag_effects],
-        "flow": result.control_flow.flow_type.value if result.control_flow else "sequential",
-        "is_certain": result.is_certain,
+        "flow": result.control_flow.type.value if result.control_flow else "sequential",
+        "is_uncertain": result.is_uncertain,
     }
 
 
@@ -98,7 +98,7 @@ def check_prediction(prediction: str, ground_truth: dict) -> tuple[bool, list[st
         errors.append(f"missing flow: {flow}")
     
     # Check if uncertain cases are handled
-    if not ground_truth["is_certain"] and "invalid" not in pred_lower:
+    if ground_truth["is_uncertain"] and "invalid" not in pred_lower:
         errors.append("should be INVALID")
     
     return len(errors) == 0, errors
