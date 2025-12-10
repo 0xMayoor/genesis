@@ -1,7 +1,7 @@
 # GENESIS Project Status
 
 ## Last Updated
-2024-12-09 11:45 UTC+01:00
+2024-12-10 13:45 UTC+01:00
 
 ## Current Phase
 **Phase A: Foundation** - Setting up architecture, documentation, and infrastructure
@@ -40,7 +40,8 @@
 
 ### Dataset Generation
 - 🟢 `genesis_datasets/generators/level0_generator.py` — Dataset generator
-- 🟢 `genesis_datasets/level0/train.jsonl` — 1493 training samples
+- 🟢 `genesis_datasets/level0/train.jsonl` — 17,794 balanced training samples
+- 🟢 1,145 unique byte patterns across 85 mnemonics
 - 🟢 Synthetic, binary, and adversarial samples
 
 ### Training Infrastructure
@@ -54,11 +55,21 @@
 
 ---
 
+### Level 0 Model Training ✅
+- 🟢 Model trained on Kaggle (GPU P100)
+- 🟢 LoRA r=32, alpha=64, 77 epochs (early stopped)
+- 🟢 Final loss: 0.0671
+- 🟢 **Dataset Accuracy: 100%**
+- 🟢 **Adversarial Refusal: 100%**
+- 🟢 **Comprehensive Exam: 98%**
+
+---
+
 ## In Progress
 
 ### Phase A: Foundation
-- 🟡 Level 0 model training — Ready to run
-- 🟡 Level 0 evaluation — Pending training completion
+- 🟢 Level 0 complete!
+- 🟡 Level 1 (Assembly Semantics) — Next up
 
 ---
 
@@ -70,10 +81,10 @@ None currently.
 
 ## Next Steps
 
-1. **Run Level 0 training**: `python tools/train_level0.py --epochs 3`
-2. **Evaluate model** against gate requirements
-3. **If passes**: Level 0 complete → start Level 1 (Assembly)
-4. **If fails**: Analyze errors, improve dataset, retrain
+1. **Start Level 1 design** — Assembly semantics
+2. **Create Level 1 spec** — `docs/levels/level_1.md`
+3. **Design Level 1 dataset** — Instruction semantics, register effects
+4. (Optional) **Retrain Level 0** with added patterns to hit 100% exam
 
 ---
 
@@ -132,8 +143,8 @@ None currently.
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| Phase A Complete | Week 4 | 🟡 In Progress (95%) |
-| Level 0 Training | Month 2 | ⚪ Pending |
+| Phase A Complete | Week 4 | 🟢 Complete |
+| Level 0 Training | Month 2 | 🟢 Complete (98% exam) |
 | Level 1-2 Training | Month 3 | ⚪ Pending |
 | Level 3-4 Training | Month 4 | ⚪ Pending |
 | Agent Layer | Month 5-6 | ⚪ Pending |
