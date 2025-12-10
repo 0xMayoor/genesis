@@ -84,9 +84,10 @@
 
 ## In Progress
 
-### Phase A: Foundation
+### Phase B: Low-Level Stack
 - 🟢 Level 0 complete! (100% exam)
 - 🟢 Level 1 complete! (100% exam)
+- 🟡 Level 2 in progress — Deterministic module started (14 tests passing)
 
 ---
 
