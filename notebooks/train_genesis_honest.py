@@ -435,61 +435,6 @@ def compile_program(name: str, code: str, compiler: str, opt: str, tmpdir: Path)
 # GENERATE TRAINING DATA FROM GROUND TRUTH
 # ============================================================================
 
-print("\n[3/6] Generating training data from Capstone ground truth...")
-
-level0_samples = []  # bytes -> mnemonic
-level1_samples = []  # instruction -> what it does (from Capstone analysis)
-level2_samples = []  # instruction sequence -> CFG
-
-opt_levels = ["-O0", "-O1", "-O2", "-O3"]
-
-with tempfile.TemporaryDirectory() as tmpdir:
-    tmpdir = Path(tmpdir)
-    total = len(REAL_PROGRAMS) * len(compilers) * len(opt_levels)
-    count = 0
-    
-    for name, code in REAL_PROGRAMS.items():
-        for compiler in compilers:
-            for opt in opt_levels:
-                count += 1
-                if count % 20 == 0:
-                    print(f"  Progress: {count}/{total}")
-                
-                binary = compile_program(name, code, compiler, opt, tmpdir)
-                if not binary:
-                    continue
-                
-                # Get GROUND TRUTH from Capstone
-                instructions = get_capstone_ground_truth(binary)
-                
-                for instr in instructions:
-                    # Level 0: bytes -> mnemonic (PURE GROUND TRUTH)
-                    level0_samples.append({
-                        "input": f"Bytes: {instr['bytes']}",
-                        "output": f"Instruction: {instr['mnemonic']}",
-                        "source": f"{name}_{compiler}_{opt}",
-                    })
-                    
-                    # Level 1: instruction -> description
-                    # Description is based on what the instruction ACTUALLY does
-                    # NOT what a test expects
-                    full_instr = f"{instr['mnemonic']} {instr['operands']}".strip()
-                    level1_samples.append({
-                        "input": f"Instruction: {full_instr}",
-                        "output": describe_instruction(instr['mnemonic'], instr['operands']),
-                        "source": f"{name}_{compiler}_{opt}",
-                    })
-                
-                # Level 2: CFG analysis
-                if len(instructions) >= 5:
-                    cfg_sample = analyze_cfg(instructions)
-                    if cfg_sample:
-                        level2_samples.append(cfg_sample)
-                
-                # Cleanup
-                if binary.exists():
-                    binary.unlink()
-
 def describe_instruction(mnemonic: str, operands: str) -> str:
     """
     Describe what an instruction does based on x86 ISA manual.
@@ -602,7 +547,6 @@ def analyze_cfg(instructions: list[dict]) -> Optional[dict]:
         
         # Jump targets are leaders
         if m.startswith("j") or m == "call":
-            # Try to parse target
             ops = instr["operands"]
             try:
                 if ops.startswith("0x"):
@@ -658,6 +602,61 @@ def analyze_cfg(instructions: list[dict]) -> Optional[dict]:
         "input": input_text,
         "output": output_text,
     }
+
+print("\n[3/6] Generating training data from Capstone ground truth...")
+
+level0_samples = []  # bytes -> mnemonic
+level1_samples = []  # instruction -> what it does (from Capstone analysis)
+level2_samples = []  # instruction sequence -> CFG
+
+opt_levels = ["-O0", "-O1", "-O2", "-O3"]
+
+with tempfile.TemporaryDirectory() as tmpdir:
+    tmpdir = Path(tmpdir)
+    total = len(REAL_PROGRAMS) * len(compilers) * len(opt_levels)
+    count = 0
+    
+    for name, code in REAL_PROGRAMS.items():
+        for compiler in compilers:
+            for opt in opt_levels:
+                count += 1
+                if count % 20 == 0:
+                    print(f"  Progress: {count}/{total}")
+                
+                binary = compile_program(name, code, compiler, opt, tmpdir)
+                if not binary:
+                    continue
+                
+                # Get GROUND TRUTH from Capstone
+                instructions = get_capstone_ground_truth(binary)
+                
+                for instr in instructions:
+                    # Level 0: bytes -> mnemonic (PURE GROUND TRUTH)
+                    level0_samples.append({
+                        "input": f"Bytes: {instr['bytes']}",
+                        "output": f"Instruction: {instr['mnemonic']}",
+                        "source": f"{name}_{compiler}_{opt}",
+                    })
+                    
+                    # Level 1: instruction -> description
+                    # Description is based on what the instruction ACTUALLY does
+                    # NOT what a test expects
+                    full_instr = f"{instr['mnemonic']} {instr['operands']}".strip()
+                    level1_samples.append({
+                        "input": f"Instruction: {full_instr}",
+                        "output": describe_instruction(instr['mnemonic'], instr['operands']),
+                        "source": f"{name}_{compiler}_{opt}",
+                    })
+                
+                # Level 2: CFG analysis
+                if len(instructions) >= 5:
+                    cfg_sample = analyze_cfg(instructions)
+                    if cfg_sample:
+                        level2_samples.append(cfg_sample)
+                
+                # Cleanup
+                if binary.exists():
+                    binary.unlink()
 
 # Deduplicate
 def dedupe(samples):
