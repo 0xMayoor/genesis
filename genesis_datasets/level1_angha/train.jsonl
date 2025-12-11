@@ -1,0 +1,156 @@
+{"level": 1, "input": "Instruction: sub rsi, rdi", "output": "Category: arithmetic; Effect: subtracts operands, sets flags", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x139]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: push rax", "output": "Category: stack; Effect: decrements RSP, writes to stack", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x10e8", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x108]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rax, [rip + 0x2f8a]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f3e]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x16c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1c1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O3"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x146]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x161]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x105]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x149]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x130]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rsi, [rip + 0x2f6a]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rsi, [rip + 0x2f52]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O3"}
+{"level": 1, "input": "Instruction: add rsi, rax", "output": "Category: arithmetic; Effect: adds operands, sets flags (CF,OF,SF,ZF,AF,PF)", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x101]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: cmp byte ptr [rip + 0x2f1d], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x10f]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: nop dword ptr [rax]", "output": "Category: no_operation; Effect: none", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x118]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f4e]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f1d]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: cmp byte ptr [rip + 0x2f15], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O3"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2fa9]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x122]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f59]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O3"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f2e]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xe9]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: cmp byte ptr [rip + 0x2f35], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2fa1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: mov r9, rdx", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip - 0x2f]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f2d]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x15e]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rax, [rip + 0x2fa2]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rbp, rsp", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rsi, [rip + 0x2f82]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x103]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f5e]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: jne 0x1110", "output": "Category: control_flow; Effect: jump if ZF=0 (not equal)", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2fb9]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x141]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x10b8", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2ed8]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x15b]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rsi, [rip + 0x2f72]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: jne 0x1120", "output": "Category: control_flow; Effect: jump if ZF=0 (not equal)", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xfa]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x153]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: cmp byte ptr [rip + 0x2f2d], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x145]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x12b]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1c5]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xef]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x124]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x1108", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: je 0x10d8", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: shr rsi, 0x3f", "output": "Category: bitwise; Effect: shift right logical, sets CF", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2f5b]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f89]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: cmp qword ptr [rip + 0x2f0a], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: cmp qword ptr [rip + 0x2efa], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x17d]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xed]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: xor ecx, ecx", "output": "Category: bitwise; Effect: logical XOR, sets flags, clears CF/OF", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x1088", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: pop rsi", "output": "Category: stack; Effect: reads from stack, increments RSP", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: sar rsi, 1", "output": "Category: bitwise; Effect: shift right arithmetic, preserves sign", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x241]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rdi, qword ptr [rip + 0x2f0e]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x114]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xea]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x151]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x11e]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x12c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f61]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: cmp byte ptr [rip + 0x2f45], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x111]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: ret ", "output": "Category: control_flow; Effect: pops return address, jumps to it", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x172]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: xor ebp, ebp", "output": "Category: bitwise; Effect: logical XOR, sets flags, clears CF/OF", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2f6b]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x123]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x131]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x1078", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: mov rax, rsi", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: nop word ptr [rax + rax]", "output": "Category: no_operation; Effect: none", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x128]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x171]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: endbr64 ", "output": "Category: security; Effect: CET end-branch marker", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: xor eax, eax", "output": "Category: bitwise; Effect: logical XOR, sets flags, clears CF/OF", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: sar rax, 3", "output": "Category: bitwise; Effect: shift right arithmetic, preserves sign", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x211]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O2"}
+{"level": 1, "input": "Instruction: je 0x1098", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: jne 0x1130", "output": "Category: control_flow; Effect: jump if ZF=0 (not equal)", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x191]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2efd]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x11f]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x11c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rax, [rip + 0x2f82]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O3"}
+{"level": 1, "input": "Instruction: je 0x10c8", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x11b]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x261]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O3"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x106]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1d1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O2"}
+{"level": 1, "input": "Instruction: cmp qword ptr [rip + 0x2eea], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xe2]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1ba]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x119]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: jmp rax", "output": "Category: control_flow; Effect: unconditional jump to target", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: and rsp, 0xfffffffffffffff0", "output": "Category: bitwise; Effect: logical AND, sets flags, clears CF/OF", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x19c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rsi, [rip + 0x2f5a]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xf1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: cmp rax, rdi", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: push rbp", "output": "Category: stack; Effect: decrements RSP, writes to stack", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rax, [rip + 0x2fb2]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x13c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: hlt ", "output": "Category: other; Effect: executes hlt operation", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x107]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: mov rax, qword ptr [rip + 0x2f0d]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f71]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x116]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x11d]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x121]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xff]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x144]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x120]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x10b]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x14c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2f7b]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f91]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: cmp qword ptr [rip + 0x2eda], 0", "output": "Category: comparison; Effect: subtracts without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: push rsp", "output": "Category: stack; Effect: decrements RSP, writes to stack", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x10c]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rax, [rip + 0x2f9a]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O1"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2f4b]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: mov rdx, rsp", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: call qword ptr [rip + 0x2ef8]", "output": "Category: control_flow; Effect: pushes return address, jumps to target", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x2f79]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xe7]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: mov rdi, qword ptr [rip + 0x2f26]", "output": "Category: data_transfer; Effect: writes destination register", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xf4]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1e1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O2"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x129]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0xfb]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x102]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: jne 0x1100", "output": "Category: control_flow; Effect: jump if ZF=0 (not equal)", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x115]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "gcc", "opt": "-O1"}
+{"level": 1, "input": "Instruction: test rax, rax", "output": "Category: comparison; Effect: ANDs without storing, sets flags", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x181]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: lea rdi, [rip + 0x1a1]", "output": "Category: data_transfer; Effect: loads effective address into destination", "verified": true, "compiler": "clang", "opt": "-O0"}
+{"level": 1, "input": "Instruction: xor r8d, r8d", "output": "Category: bitwise; Effect: logical XOR, sets flags, clears CF/OF", "verified": true, "compiler": "gcc", "opt": "-O0"}
+{"level": 1, "input": "Instruction: je 0x10a8", "output": "Category: control_flow; Effect: jump if ZF=1 (equal)", "verified": true, "compiler": "gcc", "opt": "-O2"}
