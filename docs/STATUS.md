@@ -1,7 +1,7 @@
 # GENESIS Project Status
 
 ## Last Updated
-2024-12-10 20:30 UTC+01:00
+2024-12-11 11:30 UTC+01:00
 
 ## Current Phase
 **Phase A: Foundation** - Setting up architecture, documentation, and infrastructure
@@ -84,10 +84,27 @@
 
 ## In Progress
 
+### Level 2: Control Flow Analysis ✅
+- 🟢 `docs/levels/level_2.md` — Specification complete
+- 🟢 `levels/level2_ir/types.py` — Types defined
+- 🟢 `levels/level2_ir/module.py` — Deterministic module (CFG, loops)
+- 🟢 `tests/test_level2.py` — 14 unit tests passing
+- 🟢 `tests/exam_level2.py` — **17/17 (100%)** comprehensive exam (module)
+- 🟢 `genesis_datasets/level2/train.jsonl` — 5,000 samples, 12 patterns
+
+### Level 2 Model Training ✅
+- 🟢 Model trained on Colab Pro (A100 GPU)
+- 🟢 LoRA r=64, alpha=128, 89 epochs (early stopped)
+- 🟢 Final loss: 0.0268
+- 🟢 **Model Verification: 100%** (8/8)
+- 🟢 Model saved at `models/level2_best/`
+
+---
+
 ### Phase B: Low-Level Stack
 - 🟢 Level 0 complete! (100% exam)
 - 🟢 Level 1 complete! (100% exam)
-- 🟡 Level 2 in progress — Deterministic module started (14 tests passing)
+- 🟢 Level 2 complete! (100% verification)
 
 ---
 
