@@ -425,9 +425,9 @@ def run_strict_gate():
         # Load and test each model
         results = {}
         
-        for level, path in [("level0", "models/level0_best"),
-                            ("level1", "models/level1_best"),
-                            ("level2", "models/level2_best")]:
+        for level, path in [("level0", "models/level0_ultimate"),
+                            ("level1", "models/level1_v5"),
+                            ("level2", "models/level2_v5")]:
             print(f"\n🔬 Testing {level.upper()} Model")
             print("-" * 50)
             
