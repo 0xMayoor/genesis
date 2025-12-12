@@ -282,15 +282,7 @@ CRITICAL_PATTERNS = [
     ([0x5c], 'pop'), ([0x5d], 'pop'), ([0x5e], 'pop'), ([0x5f], 'pop'),
 ]
 
-# Add each critical pattern 500 times to DOMINATE training
-REPEAT = 500
-for bytes_list, mnemonic in CRITICAL_PATTERNS:
-    if mnemonic in valid_mnemonics:
-        for _ in range(REPEAT):
-            samples.append((bytes_list, mnemonic))
-
-print(f"    Added {len(CRITICAL_PATTERNS) * REPEAT} critical samples")
-print(f"    Total samples now: {len(samples)}")
+# Critical patterns added AFTER balancing (see below)
 
 # ============================================================================
 # BALANCE & DATASET
@@ -313,8 +305,20 @@ for mnemonic, byte_lists in by_mnemonic.items():
     for b in unique:
         balanced.append((list(b), mnemonic))
 
+# NOW add critical patterns AFTER balancing (not deduplicated!)
+REPEAT = 200  # Add each critical pattern 200 times
+critical_added = 0
+for bytes_list, mnemonic in CRITICAL_PATTERNS:
+    if mnemonic in valid_mnemonics:
+        for _ in range(REPEAT):
+            balanced.append((bytes_list, mnemonic))
+            critical_added += 1
+
+print(f"  Base balanced: {len(balanced) - critical_added}")
+print(f"  Critical added: {critical_added}")
+
 random.shuffle(balanced)
-print(f"  Balanced: {len(balanced)}")
+print(f"  Total balanced: {len(balanced)}")
 
 split = int(0.9 * len(balanced))
 train_samples = balanced[:split]
