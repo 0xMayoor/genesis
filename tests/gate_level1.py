@@ -94,40 +94,41 @@ TEST_OPT_LEVELS = ["-O0", "-O2"]  # Only 2 levels for gate test
 def get_instruction_semantics(insn) -> dict:
     """Extract ground truth semantics from Capstone instruction.
     
-    Returns dict with:
-        reads: set of register names read
-        writes: set of register names written  
-        mem_read: bool
-        mem_write: bool
-        flags_written: bool
+    Uses op.access field for accurate read/write detection:
+        1 = CS_AC_READ
+        2 = CS_AC_WRITE
+        3 = CS_AC_READ | CS_AC_WRITE
     """
+    # Start with implicit registers from Capstone
     reads = set(insn.reg_name(r) for r in insn.regs_read)
     writes = set(insn.reg_name(r) for r in insn.regs_write)
     mem_read = False
     mem_write = False
     
-    # Parse operands for explicit registers and memory
-    for i, op in enumerate(insn.operands):
+    CS_AC_READ = 1
+    CS_AC_WRITE = 2
+    
+    for op in insn.operands:
         if op.type == X86_OP_REG:
             reg = insn.reg_name(op.reg)
-            # Destination operand (first) is write, except for cmp/test/push/jmp/call
-            if i == 0 and insn.mnemonic not in ['push', 'cmp', 'test', 'jmp', 'call', 'ja', 'jae', 'jb', 'jbe', 'je', 'jne', 'jg', 'jge', 'jl', 'jle', 'jo', 'jno', 'js', 'jns', 'jp', 'jnp', 'jz', 'jnz']:
-                writes.add(reg)
-            else:
+            # Use access field instead of position guessing
+            if op.access & CS_AC_READ:
                 reads.add(reg)
+            if op.access & CS_AC_WRITE:
+                writes.add(reg)
         elif op.type == X86_OP_MEM:
-            # Memory base/index registers are read
+            # Base and index registers are always read for address calculation
             if op.mem.base:
                 reads.add(insn.reg_name(op.mem.base))
             if op.mem.index:
                 reads.add(insn.reg_name(op.mem.index))
-            # First operand memory = write (except lea, cmp, test)
-            if i == 0 and insn.mnemonic not in ['lea', 'cmp', 'test']:
-                mem_write = True
-            else:
+            # Memory access direction from access field
+            if op.access & CS_AC_READ:
                 mem_read = True
+            if op.access & CS_AC_WRITE:
+                mem_write = True
     
-    # Special cases
+    # Special cases for implicit memory access
     if insn.mnemonic == 'push':
         mem_write = True
     elif insn.mnemonic == 'pop':

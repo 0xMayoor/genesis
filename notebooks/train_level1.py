@@ -86,33 +86,43 @@ print(f"  Registers: {NUM_REGISTERS}")
 # =============================================================================
 
 def get_instruction_semantics(insn) -> dict:
-    """Extract ground truth semantics from Capstone instruction."""
+    """Extract ground truth semantics from Capstone instruction.
+    
+    Uses op.access field for accurate read/write detection:
+        1 = CS_AC_READ
+        2 = CS_AC_WRITE
+        3 = CS_AC_READ | CS_AC_WRITE
+    """
+    # Start with implicit registers from Capstone
     reads = set(insn.reg_name(r) for r in insn.regs_read)
     writes = set(insn.reg_name(r) for r in insn.regs_write)
     mem_read = False
     mem_write = False
     
-    for i, op in enumerate(insn.operands):
+    CS_AC_READ = 1
+    CS_AC_WRITE = 2
+    
+    for op in insn.operands:
         if op.type == X86_OP_REG:
             reg = insn.reg_name(op.reg)
-            no_write_mnemonics = ['push', 'cmp', 'test', 'jmp', 'call', 
-                'ja', 'jae', 'jb', 'jbe', 'je', 'jne', 'jg', 'jge', 'jl', 'jle',
-                'jo', 'jno', 'js', 'jns', 'jp', 'jnp', 'jz', 'jnz']
-            if i == 0 and insn.mnemonic not in no_write_mnemonics:
-                writes.add(reg)
-            else:
+            # Use access field instead of position guessing
+            if op.access & CS_AC_READ:
                 reads.add(reg)
+            if op.access & CS_AC_WRITE:
+                writes.add(reg)
         elif op.type == X86_OP_MEM:
+            # Base and index registers are always read for address calculation
             if op.mem.base:
                 reads.add(insn.reg_name(op.mem.base))
             if op.mem.index:
                 reads.add(insn.reg_name(op.mem.index))
-            if i == 0 and insn.mnemonic not in ['lea', 'cmp', 'test']:
-                mem_write = True
-            else:
+            # Memory access direction
+            if op.access & CS_AC_READ:
                 mem_read = True
+            if op.access & CS_AC_WRITE:
+                mem_write = True
     
-    # Special cases
+    # Special cases for implicit memory access
     if insn.mnemonic == 'push':
         mem_write = True
     elif insn.mnemonic in ['pop', 'ret']:
