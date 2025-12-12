@@ -280,6 +280,27 @@ CRITICAL_PATTERNS = [
     # Pop variants (58-5f)
     ([0x58], 'pop'), ([0x59], 'pop'), ([0x5a], 'pop'), ([0x5b], 'pop'),
     ([0x5c], 'pop'), ([0x5d], 'pop'), ([0x5e], 'pop'), ([0x5f], 'pop'),
+    
+    # FROM ERROR LOG - rare mov variants (8a = mov r8, r/m8)
+    ([0x8a, 0x04, 0x08], 'mov'),  # mov al, [rax+rcx]
+    ([0x8a, 0x14, 0x08], 'mov'),  # mov dl, [rax+rcx]
+    ([0x8a, 0x55, 0xef], 'mov'),  # mov dl, [rbp-0x11]
+    ([0x8a, 0x04, 0x17], 'mov'),  # mov al, [rdi+rdx]
+    ([0x44, 0x8a, 0x04, 0x0f], 'mov'),  # mov r8b, [rdi+rcx]
+    # More 8a mov variants
+    ([0x8a, 0x00], 'mov'), ([0x8a, 0x01], 'mov'), ([0x8a, 0x02], 'mov'),
+    ([0x8a, 0x03], 'mov'), ([0x8a, 0x06], 'mov'), ([0x8a, 0x07], 'mov'),
+    
+    # FROM ERROR LOG - shift instructions
+    ([0xd1, 0x6d, 0xec], 'shr'),  # shr dword [rbp-0x14], 1
+    ([0xd1, 0xef], 'shr'),  # shr edi, 1
+    ([0xd1, 0xe8], 'shr'),  # shr eax, 1
+    ([0xd1, 0xea], 'shr'),  # shr edx, 1
+    ([0xd1, 0xe9], 'shr'),  # shr ecx, 1
+    # shl variants (d1 /4)
+    ([0xd1, 0xe0], 'shl'),  # shl eax, 1
+    ([0xd1, 0xe1], 'shl'),  # shl ecx, 1
+    ([0xd1, 0xe2], 'shl'),  # shl edx, 1
 ]
 
 # Critical patterns added AFTER balancing (see below)
