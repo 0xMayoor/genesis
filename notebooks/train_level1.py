@@ -462,6 +462,15 @@ best_val_acc = 0
 patience, wait = 30, 0
 best_state = None
 
+# Setup periodic saving to Drive
+DRIVE_PATH = "/content/drive/MyDrive/genesis_models"
+try:
+    os.makedirs(DRIVE_PATH, exist_ok=True)
+    SAVE_TO_DRIVE = True
+    print(f"  Will save checkpoints to: {DRIVE_PATH}")
+except:
+    SAVE_TO_DRIVE = False
+
 print("  Training...")
 for epoch in range(200):
     train_loss = train_epoch(model, train_loader)
@@ -474,7 +483,20 @@ for epoch in range(200):
         best_val_acc = avg_acc
         best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
         wait = 0
-        if (epoch + 1) % 10 == 0:
+        
+        # Save checkpoint on improvement
+        if SAVE_TO_DRIVE and (epoch + 1) % 10 == 0:
+            torch.save({
+                'model_state_dict': best_state,
+                'registers': REGISTERS,
+                'reg_to_idx': REG_TO_IDX,
+                'num_registers': NUM_REGISTERS,
+                'max_len': MAX_LEN,
+                'epoch': epoch + 1,
+                'val_acc': avg_acc,
+            }, f"{DRIVE_PATH}/level1_checkpoint.pt")
+            print(f"    Epoch {epoch+1}: loss={train_loss:.4f} val_avg={avg_acc:.4f} * [saved]")
+        elif (epoch + 1) % 10 == 0:
             print(f"    Epoch {epoch+1}: loss={train_loss:.4f} val_avg={avg_acc:.4f} *")
     else:
         wait += 1
