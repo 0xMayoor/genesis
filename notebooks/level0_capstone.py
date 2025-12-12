@@ -227,6 +227,48 @@ for bytes_list, mnemonic in samples[:100000]:
 for m, examples in critical.items():
     print(f"    {m}: {examples[:3]}")
 
+# ADD CRITICAL PATTERNS EXPLICITLY (patterns that are often missing)
+print("\n  Adding critical patterns...")
+CRITICAL_PATTERNS = [
+    # Indirect jumps (ff /4 = ffe0-ffe7)
+    ([0xff, 0xe0], 'jmp'),  # jmp rax
+    ([0xff, 0xe1], 'jmp'),  # jmp rcx
+    ([0xff, 0xe2], 'jmp'),  # jmp rdx
+    ([0xff, 0xe3], 'jmp'),  # jmp rbx
+    ([0xff, 0xe4], 'jmp'),  # jmp rsp
+    ([0xff, 0xe5], 'jmp'),  # jmp rbp
+    ([0xff, 0xe6], 'jmp'),  # jmp rsi
+    ([0xff, 0xe7], 'jmp'),  # jmp rdi
+    ([0x41, 0xff, 0xe0], 'jmp'),  # jmp r8
+    ([0x41, 0xff, 0xe1], 'jmp'),  # jmp r9
+    # Indirect calls (ff /2 = ffd0-ffd7)
+    ([0xff, 0xd0], 'call'),  # call rax
+    ([0xff, 0xd1], 'call'),  # call rcx
+    ([0xff, 0xd2], 'call'),  # call rdx
+    # FS segment prefix instructions (64)
+    ([0x64, 0x48, 0x8b, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov rax, fs:[0x28]
+    ([0x64, 0x48, 0x2b, 0x14, 0x25, 0x28, 0x00, 0x00, 0x00], 'sub'),  # sub rdx, fs:[0x28]
+    ([0x64, 0x48, 0x8b, 0x0c, 0x25, 0x00, 0x00, 0x00, 0x00], 'mov'),  # mov rcx, fs:[0]
+    ([0x64, 0x48, 0x89, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov fs:[0x28], rax
+    # GS segment prefix (65)
+    ([0x65, 0x48, 0x8b, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov rax, gs:[0x28]
+    # Push variants (make sure all are covered)
+    ([0x50], 'push'), ([0x51], 'push'), ([0x52], 'push'), ([0x53], 'push'),
+    ([0x54], 'push'), ([0x55], 'push'), ([0x56], 'push'), ([0x57], 'push'),
+    # Pop variants
+    ([0x58], 'pop'), ([0x59], 'pop'), ([0x5a], 'pop'), ([0x5b], 'pop'),
+    ([0x5c], 'pop'), ([0x5d], 'pop'), ([0x5e], 'pop'), ([0x5f], 'pop'),
+]
+
+# Add each critical pattern 100 times to ensure it's learned
+for bytes_list, mnemonic in CRITICAL_PATTERNS:
+    if mnemonic in valid_mnemonics:  # Only if mnemonic is in vocabulary
+        for _ in range(100):
+            samples.append((bytes_list, mnemonic))
+
+print(f"    Added {len(CRITICAL_PATTERNS) * 100} critical samples")
+print(f"    Total samples now: {len(samples)}")
+
 # ============================================================================
 # BALANCE & DATASET
 # ============================================================================
@@ -444,7 +486,8 @@ print(f"\n  Known patterns: {kp_correct}/{len(known)} = {100*kp_correct/len(know
 # ============================================================================
 print("\n[SAVE]")
 
-os.makedirs("models/level0_capstone", exist_ok=True)
+MODEL_DIR = "models/level0"
+os.makedirs(MODEL_DIR, exist_ok=True)
 
 torch.save({
     'model_state_dict': model.state_dict(),
@@ -452,33 +495,33 @@ torch.save({
     'id_to_mnemonic': id_to_mnemonic,
     'num_classes': num_classes,
     'max_len': MAX_LEN,
-}, "models/level0_capstone/model.pt")
+}, f"{MODEL_DIR}/model.pt")
 
-with open("models/level0_capstone/config.json", "w") as f:
+with open(f"{MODEL_DIR}/config.json", "w") as f:
     json.dump({'num_classes': num_classes, 'max_len': MAX_LEN,
                'mnemonic_to_id': mnemonic_to_id,
                'id_to_mnemonic': {str(k): v for k, v in id_to_mnemonic.items()}}, f, indent=2)
 
 import zipfile
-with zipfile.ZipFile("level0_capstone.zip", "w", zipfile.ZIP_DEFLATED) as zf:
-    for f in Path("models/level0_capstone").iterdir():
-        zf.write(f, f"models/level0_capstone/{f.name}")
+with zipfile.ZipFile("level0.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+    for f in Path(MODEL_DIR).iterdir():
+        zf.write(f, f"{MODEL_DIR}/{f.name}")
 
-print(f"  Created: level0_capstone.zip")
+print(f"  Created: level0.zip")
 
 try:
     import shutil
     os.makedirs("/content/drive/MyDrive/genesis_models", exist_ok=True)
-    shutil.copy("level0_capstone.zip", "/content/drive/MyDrive/genesis_models/")
+    shutil.copy("level0.zip", "/content/drive/MyDrive/genesis_models/")
     print("  Saved to Google Drive")
 except:
     pass
 
 try:
     from google.colab import files
-    files.download("level0_capstone.zip")
+    files.download("level0.zip")
 except:
-    print(f"  Download: {os.path.abspath('level0_capstone.zip')}")
+    print(f"  Download: {os.path.abspath('level0.zip')}")
 
 print("\n" + "=" * 60)
 print(f"GATE TEST: {accuracy:.1f}%")
