@@ -257,51 +257,6 @@ samples = list(unique_samples.values())
 print(f"  Unique samples: {len(samples)}")
 
 # =============================================================================
-# CRITICAL PATTERNS (from gate test errors)
-# =============================================================================
-print("\n[CRITICAL PATTERNS]")
-
-# These patterns were failing in gate test - add them explicitly
-CRITICAL_PATTERNS = [
-    # REX push r12-r15 (41 54-57) - reads the register AND rsp
-    ([0x41, 0x54], 'push', {'reads': frozenset({'r12', 'rsp'}), 'writes': frozenset({'rsp'}), 'mem_read': False, 'mem_write': True, 'flags_written': False}),
-    ([0x41, 0x55], 'push', {'reads': frozenset({'r13', 'rsp'}), 'writes': frozenset({'rsp'}), 'mem_read': False, 'mem_write': True, 'flags_written': False}),
-    ([0x41, 0x56], 'push', {'reads': frozenset({'r14', 'rsp'}), 'writes': frozenset({'rsp'}), 'mem_read': False, 'mem_write': True, 'flags_written': False}),
-    ([0x41, 0x57], 'push', {'reads': frozenset({'r15', 'rsp'}), 'writes': frozenset({'rsp'}), 'mem_read': False, 'mem_write': True, 'flags_written': False}),
-    
-    # REX pop r12-r15 (41 5c-5f) - writes the register AND rsp
-    ([0x41, 0x5c], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'r12', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x41, 0x5d], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'r13', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x41, 0x5e], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'r14', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x41, 0x5f], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'r15', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    
-    # Regular pop (5b-5f) - writes the register AND rsp
-    ([0x5b], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'rbx', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x5c], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),  # pop rsp special
-    ([0x5d], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'rbp', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x5e], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'rsi', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    ([0x5f], 'pop', {'reads': frozenset({'rsp'}), 'writes': frozenset({'rdi', 'rsp'}), 'mem_read': True, 'mem_write': False, 'flags_written': False}),
-    
-    # endbr64 - no reads, no writes
-    ([0xf3, 0x0f, 0x1e, 0xfa], 'endbr64', {'reads': frozenset(), 'writes': frozenset(), 'mem_read': False, 'mem_write': False, 'flags_written': False}),
-    
-    # mov r9d, r12d - reads source only, writes dest
-    ([0x45, 0x89, 0xe1], 'mov', {'reads': frozenset({'r12d'}), 'writes': frozenset({'r9d'}), 'mem_read': False, 'mem_write': False, 'flags_written': False}),
-    
-    # Memory with index register - cmp [r8+rdx*4], r9d
-    ([0x45, 0x39, 0x0c, 0x90], 'cmp', {'reads': frozenset({'r8', 'rdx', 'r9d'}), 'writes': frozenset(), 'mem_read': True, 'mem_write': False, 'flags_written': True}),
-]
-
-# Add critical patterns multiple times
-REPEAT = 200
-for bytes_list, mnemonic, sem in CRITICAL_PATTERNS:
-    for _ in range(REPEAT):
-        samples.append((bytes_list, mnemonic, sem))
-
-print(f"  Added {len(CRITICAL_PATTERNS) * REPEAT} critical samples")
-print(f"  Total samples: {len(samples)}")
-
-# =============================================================================
 # DATASET
 # =============================================================================
 print("\n[DATASET]")
@@ -507,15 +462,6 @@ best_val_acc = 0
 patience, wait = 30, 0
 best_state = None
 
-# Setup periodic saving to Drive
-DRIVE_PATH = "/content/drive/MyDrive/genesis_models"
-try:
-    os.makedirs(DRIVE_PATH, exist_ok=True)
-    SAVE_TO_DRIVE = True
-    print(f"  Will save checkpoints to: {DRIVE_PATH}")
-except:
-    SAVE_TO_DRIVE = False
-
 print("  Training...")
 for epoch in range(200):
     train_loss = train_epoch(model, train_loader)
@@ -528,20 +474,7 @@ for epoch in range(200):
         best_val_acc = avg_acc
         best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
         wait = 0
-        
-        # Save checkpoint on improvement
-        if SAVE_TO_DRIVE and (epoch + 1) % 10 == 0:
-            torch.save({
-                'model_state_dict': best_state,
-                'registers': REGISTERS,
-                'reg_to_idx': REG_TO_IDX,
-                'num_registers': NUM_REGISTERS,
-                'max_len': MAX_LEN,
-                'epoch': epoch + 1,
-                'val_acc': avg_acc,
-            }, f"{DRIVE_PATH}/level1_checkpoint.pt")
-            print(f"    Epoch {epoch+1}: loss={train_loss:.4f} val_avg={avg_acc:.4f} * [saved]")
-        elif (epoch + 1) % 10 == 0:
+        if (epoch + 1) % 10 == 0:
             print(f"    Epoch {epoch+1}: loss={train_loss:.4f} val_avg={avg_acc:.4f} *")
     else:
         wait += 1
