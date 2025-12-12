@@ -48,17 +48,29 @@ print(f"  Device: {device}")
 print("\n[DATA COLLECTION]")
 
 def disassemble(binary_path):
+    """Disassemble using objdump (more reliable on Colab)."""
+    import re
     try:
         result = subprocess.run(
-            ["objcopy", "-O", "binary", "--only-section=.text", 
-             str(binary_path), "/dev/stdout"],
-            capture_output=True, timeout=30
+            ["objdump", "-d", "-M", "intel", str(binary_path)],
+            capture_output=True, text=True, timeout=60
         )
         if not result.stdout:
             return []
-        cs = Cs(CS_ARCH_X86, CS_MODE_64)
-        return [(list(i.bytes), i.mnemonic) for i in cs.disasm(result.stdout, 0)]
-    except:
+        
+        samples = []
+        for line in result.stdout.split('\n'):
+            # Match: "  addr:    bytes      mnemonic operands"
+            match = re.match(r'\s+[0-9a-f]+:\s+([0-9a-f ]+?)\s{2,}(\S+)', line)
+            if match:
+                bytes_hex = match.group(1).strip().replace(' ', '')
+                mnemonic = match.group(2).lower()
+                # Convert hex string to byte list
+                bytes_list = [int(bytes_hex[i:i+2], 16) for i in range(0, len(bytes_hex), 2)]
+                if bytes_list and mnemonic and not mnemonic.startswith('.'):
+                    samples.append((bytes_list, mnemonic))
+        return samples
+    except Exception as e:
         return []
 
 # Find MORE system binaries
@@ -370,8 +382,6 @@ print(f"\n  Best val accuracy: {best_val_acc:.4f} ({best_val_acc*100:.2f}%)")
 # ============================================================================
 print("\n[GATE TEST]")
 
-cs = Cs(CS_ARCH_X86, CS_MODE_64)
-
 GATE_PROGRAMS = {
     "reverse_string": 'void reverse(char*s,int len){for(int i=0;i<len/2;i++){char t=s[i];s[i]=s[len-1-i];s[len-1-i]=t;}}int main(){char s[]="hello";reverse(s,5);return s[0];}',
     "count_ones": 'int popcount(unsigned n){int c=0;while(n){c+=n&1;n>>=1;}return c;}int main(){return popcount(0xFF);}',
@@ -391,6 +401,7 @@ def predict(bytes_list):
 
 correct, total, unknown = 0, 0, 0
 errors = []
+import re as re_module
 
 with tempfile.TemporaryDirectory() as tmpdir:
     tmpdir = Path(tmpdir)
@@ -404,16 +415,25 @@ with tempfile.TemporaryDirectory() as tmpdir:
                                  capture_output=True).returncode != 0:
                     continue
                 
+                # Use objdump (same as training)
                 result = subprocess.run(
-                    ["objcopy", "-O", "binary", "--only-section=.text", str(binary), "/dev/stdout"],
-                    capture_output=True
+                    ["objdump", "-d", "-M", "intel", str(binary)],
+                    capture_output=True, text=True
                 )
                 if not result.stdout:
                     continue
                 
-                for instr in cs.disasm(result.stdout, 0):
-                    expected = instr.mnemonic
-                    bytes_list = list(instr.bytes)
+                for line in result.stdout.split('\n'):
+                    match = re_module.match(r'\s+[0-9a-f]+:\s+([0-9a-f ]+?)\s{2,}(\S+)', line)
+                    if not match:
+                        continue
+                    bytes_hex = match.group(1).strip().replace(' ', '')
+                    expected = match.group(2).lower()
+                    
+                    if not bytes_hex or expected.startswith('.'):
+                        continue
+                    
+                    bytes_list = [int(bytes_hex[i:i+2], 16) for i in range(0, len(bytes_hex), 2)]
                     
                     if expected not in mnemonic_to_id:
                         unknown += 1
@@ -425,7 +445,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
                     if pred == expected:
                         correct += 1
                     elif len(errors) < 20:
-                        errors.append(f"{instr.bytes.hex()}: {pred} vs {expected}")
+                        errors.append(f"{bytes_hex}: {pred} vs {expected}")
 
 accuracy = 100 * correct / total if total > 0 else 0
 print(f"\n  Gate Test: {correct}/{total} = {accuracy:.1f}%")
