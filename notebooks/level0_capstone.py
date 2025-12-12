@@ -230,7 +230,7 @@ for m, examples in critical.items():
 # ADD CRITICAL PATTERNS EXPLICITLY (patterns that are often missing)
 print("\n  Adding critical patterns...")
 CRITICAL_PATTERNS = [
-    # Indirect jumps (ff /4 = ffe0-ffe7)
+    # INDIRECT JUMPS (ff /4 = ffe0-ffe7) - CRITICAL!
     ([0xff, 0xe0], 'jmp'),  # jmp rax
     ([0xff, 0xe1], 'jmp'),  # jmp rcx
     ([0xff, 0xe2], 'jmp'),  # jmp rdx
@@ -241,32 +241,55 @@ CRITICAL_PATTERNS = [
     ([0xff, 0xe7], 'jmp'),  # jmp rdi
     ([0x41, 0xff, 0xe0], 'jmp'),  # jmp r8
     ([0x41, 0xff, 0xe1], 'jmp'),  # jmp r9
-    # Indirect calls (ff /2 = ffd0-ffd7)
+    ([0x41, 0xff, 0xe2], 'jmp'),  # jmp r10
+    ([0x41, 0xff, 0xe3], 'jmp'),  # jmp r11
+    # INDIRECT JUMPS with memory (ff /4 with ModR/M)
+    ([0xff, 0x25, 0x00, 0x00, 0x00, 0x00], 'jmp'),  # jmp [rip+0]
+    ([0xff, 0x24, 0x25, 0x00, 0x00, 0x00, 0x00], 'jmp'),  # jmp [addr]
+    
+    # INDIRECT CALLS (ff /2 = ffd0-ffd7) - CRITICAL!
     ([0xff, 0xd0], 'call'),  # call rax
     ([0xff, 0xd1], 'call'),  # call rcx
     ([0xff, 0xd2], 'call'),  # call rdx
-    # FS segment prefix instructions (64)
+    ([0xff, 0xd3], 'call'),  # call rbx
+    ([0xff, 0xd4], 'call'),  # call rsp
+    ([0xff, 0xd5], 'call'),  # call rbp
+    ([0xff, 0xd6], 'call'),  # call rsi
+    ([0xff, 0xd7], 'call'),  # call rdi
+    ([0x41, 0xff, 0xd0], 'call'),  # call r8
+    ([0x41, 0xff, 0xd1], 'call'),  # call r9
+    # INDIRECT CALLS with memory (ff /2 with ModR/M)
+    ([0xff, 0x15, 0x00, 0x00, 0x00, 0x00], 'call'),  # call [rip+0]
+    ([0xff, 0x15, 0x53, 0x2f, 0x00, 0x00], 'call'),  # call [rip+0x2f53] - from error
+    ([0xff, 0x15, 0xf3, 0x2e, 0x00, 0x00], 'call'),  # call [rip+0x2ef3] - from error
+    
+    # FS segment prefix instructions (64) - CRITICAL!
     ([0x64, 0x48, 0x8b, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov rax, fs:[0x28]
-    ([0x64, 0x48, 0x2b, 0x14, 0x25, 0x28, 0x00, 0x00, 0x00], 'sub'),  # sub rdx, fs:[0x28]
+    ([0x64, 0x48, 0x8b, 0x14, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov rdx, fs:[0x28]
     ([0x64, 0x48, 0x8b, 0x0c, 0x25, 0x00, 0x00, 0x00, 0x00], 'mov'),  # mov rcx, fs:[0]
     ([0x64, 0x48, 0x89, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov fs:[0x28], rax
+    ([0x64, 0x48, 0x2b, 0x14, 0x25, 0x28, 0x00, 0x00, 0x00], 'sub'),  # sub rdx, fs:[0x28] - from error
+    ([0x64, 0x48, 0x2b, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'sub'),  # sub rax, fs:[0x28]
+    ([0x64, 0x48, 0x33, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'xor'),  # xor rax, fs:[0x28]
     # GS segment prefix (65)
     ([0x65, 0x48, 0x8b, 0x04, 0x25, 0x28, 0x00, 0x00, 0x00], 'mov'),  # mov rax, gs:[0x28]
-    # Push variants (make sure all are covered)
+    
+    # Push variants (50-57)
     ([0x50], 'push'), ([0x51], 'push'), ([0x52], 'push'), ([0x53], 'push'),
     ([0x54], 'push'), ([0x55], 'push'), ([0x56], 'push'), ([0x57], 'push'),
-    # Pop variants
+    # Pop variants (58-5f)
     ([0x58], 'pop'), ([0x59], 'pop'), ([0x5a], 'pop'), ([0x5b], 'pop'),
     ([0x5c], 'pop'), ([0x5d], 'pop'), ([0x5e], 'pop'), ([0x5f], 'pop'),
 ]
 
-# Add each critical pattern 100 times to ensure it's learned
+# Add each critical pattern 500 times to DOMINATE training
+REPEAT = 500
 for bytes_list, mnemonic in CRITICAL_PATTERNS:
-    if mnemonic in valid_mnemonics:  # Only if mnemonic is in vocabulary
-        for _ in range(100):
+    if mnemonic in valid_mnemonics:
+        for _ in range(REPEAT):
             samples.append((bytes_list, mnemonic))
 
-print(f"    Added {len(CRITICAL_PATTERNS) * 100} critical samples")
+print(f"    Added {len(CRITICAL_PATTERNS) * REPEAT} critical samples")
 print(f"    Total samples now: {len(samples)}")
 
 # ============================================================================
